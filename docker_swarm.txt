@@ -1,0 +1,26 @@
+Container orchestration that consisit of multiple docker host that host multiple containers.
+Allows you to deploy 100s of 1000's of instances of your application
+
+docker service create --replicas=100 nodejs
+
+Docker Orchestration: 
+Docker Swarm: Lacks autoscaling features
+Kubernetes: Provide supports and plugins
+MESOS: hard to set up
+
+Docker Swarm:
+Combines multiple docker machines into a single cluster, into seperate 
+hosts for high availability and load balancing accross different system and hardware.
+
+Allows us to orchestrates
+Swarm Manager: [Manages Node Workers]
+docker swarn init #On swarm manager 
+
+#Runs on the manager node
+docker service create --replicas=3 <image-name> 
+docker service  create --replicas=3 -p 8080:80 <image-name>
+docker service create --replicas=3 --network frontend <image-name>
+
+
+
+
