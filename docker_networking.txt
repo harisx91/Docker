@@ -1,0 +1,43 @@
+Docker Networking
+When you install Docker, it creates 3 networks automatically
+1) Bridge: Default network a container get attached to
+docker run ubuntu
+Bridge network is an private internal network that gets attached to the host
+The container access each other using the internal ip
+to access these external then we can map the ports
+
+What if we want to isolate the containers?
+we can create out own isolated network using:
+docker network create \
+    --driver bridge \
+    --subnet 182.18.0.0/16
+    custom-isolated-network
+
+2)none:
+docker run ubuntu --network=none
+containers are not attached to any network, and they are isolated network
+3) host:
+docker run Ubuntu --network=host
+associate the container to the host, this takes out isolation without any mapping ports
+
+
+docker network ls 
+#to list all network
+
+docket inspect <contain-name> 
+to check network settings and other settings
+
+Embedded DNS:
+mysql.connect ( <container-name )
+Docker has a built in DNS to resolve 
+
+what is the subnet configured with the bridge network?
+docker network inspect bridge
+
+Create a new network named wp-mysql-network using the bridge driver. Allocate subnet 182.18.0.0/24. Configure Gateway 182.18.0.1
+
+Run the command: docker network create --driver bridge --subnet 182.18.0.0/24 --gateway 182.18.0.1 wp-mysql-network
+
+Inspect the created network by docker network inspect wp-mysql-network
+
+

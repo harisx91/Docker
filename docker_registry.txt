@@ -1,0 +1,44 @@
+docker registry: Central repository of all docker images, it is a storage and 
+distribution system for named Docker images
+
+docker run nginx
+
+image: docker.io/library/nginx
+#docker.io= registry
+#library= user/account
+#nginx= image/repository
+
+Private Registry:
+docker login private-registry.io
+docker run private-registry.io/apps/internal-apps
+
+How to deploy private registry within our own org?
+docker run -d -p 5000:5000 --name registry registry:2
+#custom registry running on port 5000 
+
+docker image tag my-image localhost:5000/my-image
+
+#To push to the private registry
+docker push localhost:5000/my-image
+docker pull localhost:5000/my-image
+
+docker pull 192.168.56.100:5000/my-name
+
+by default docker engine interacts with?
+dockerhub
+
+How to push images to local registry?
+docker pull nginx:latest
+docker image tag nginx:latest localhost:5000/nginx:latest
+docker push localhost:5000/nginx:latest
+to check local registry: curl -X GET localhost:5000/v2/_catalog 
+
+How to remove dangling images we have locally?
+docker image prune -a
+
+to get list of images use: docker image ls 
+
+Now we can also pull images from our registry-server
+docker pull localhost:5000/nginx
+
+
