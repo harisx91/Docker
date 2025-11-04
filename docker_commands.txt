@@ -1,0 +1,271 @@
+sudo docker run nginx 
+#Run container from a image, run the instance of nginx application on the docker host
+sudo docker ps
+sudo docker ps -a #All container running or not (All running and previously stopped or exited containers)
+docker stop "name_of_container"
+dock rm "name_of container"
+How to see list of images present on our host?
+docker images
+docker rmi "name_of_the_image" #Make sure to stop the dependent container to be able to delete image
+what if we want to just download the image and not run the container? docker pull nginx #To store on the host
+Exec -  execute a command: docker exec "name-of-container" cat /etc/hosts #To execute /etc/hosts command on docker container
+Run - attach and detach: sudo docker run kodekloud/simple-webapp #Allow me to run the webserver app on container
+BUT to run the instance in the background in detach(-d) mode:  sudo docker run -d kodekloud/simple-webapp
+##This is going to run in the background, allowing you to run other processes
+#To attach back the running container use: sudo docker attach "first-few-characters-of-contain-id"
+
+#To run centos in your system run:
+docker docker run centos:centos7.9.2009
+#To login to a docker container automatically user -it and run bash command then run:
+docker run -it centos:centos7.9.2009 bash
+#Now we are logged in to the docker container, and we are running bash command
+#At this point you sould be root@[UNIQUE_ID] for the docker container you are loggin in as
+cat /etc/os-release #It will give us information about the os-release
+exit #to exit out from the shell
+
+docker run -d centos:centos7.9.2009 sleep 20
+#This is going to run the container for 20 secs in background and then status will change to exit after 20 secs
+
+docker run -d centos:centos7.9.2009 sleep 2000
+docker stop "name-of-container" #To stop the docker container
+#When we stop the running process forefully then we can see the exit code 
+
+#To remove containers from ps -a
+docker rm [name-of-container]
+docker rm [first-few-char-of-container-ID]
+
+#To see the docker images that I current have 
+docker images
+#to remove docker images using rmi
+docker rmi [images-name]
+
+BUT IF CONTAINER IS USING AN IMAGE< WE WONT BE ABLE TO REMOVE unless we REMOVE CONTAINER FIRST BEFORE REMOVING THE IMAGE
+
+#Docker pull vs docker run
+Docker pull [docker-image] #to pull the docker image and store it locally #Only pull the image, do not start container
+Docker run [docker-image] #Will look for the image locally, if it cant find then it will pull that image 
+
+How to run a command on a running container?
+We can use exec option
+How would you use that?
+docker exec [ID-of-conatiner] cat /etc/os-release
+
+To stop all the containers at once, run the command: 
+docker stop $(docker ps -aq)
+
+To remove all the stopped containers at once, run the command: 
+docker rm $(docker ps -aq)
+
+Run a container with the nginx:1.14-alpine image and name it webapp:
+docker run -d --name webapp nginx:1.14-alpine  
+#It will run the image, and we will de-attach this image to run in the background and then we are naming this as webapp
+
+We can also run specific version of images using tags:
+docker run ubuntu:22.04 cat /etc/*release* 
+#this is going to download ubuntu 22.04 and after image is downloaded 
+we can check the release version by giving the command cat /etc/*release*
+
+docker run ubuntu sleep 15 #to run in the foreground for 15 seconds
+docker run ubuntu sleep 1500 #will run for 1500 seconds
+docker run -d ubuntu sleep 1500 #Will run in detach mode in the background
+But how can we attach back to it?
+docker attach [container-ID]
+
+Jenkins: Continuous Integration and Continuous Delivery
+https://github.com/jenkinsci/docker/blob/master/README.md
+docker run jenkins/jenkins #It will download the latest version of jenkins and will start running
+duplicate terminal: docker ps #To see which port jenkins is running on
+
+To access jenkins we can: 
+what is is internal ip of docker container? docker inspect [container-id]
+get the ipaddress and then on firefox enter 172.17.0.2:8080 #ip-address:8080
+
+We are on the webpage using the internal ip, but how do you access using external ip?
+For this, we need to add port mapping
+1) First, stop the docker container
+2) Then map the port: docker run -p 8080:8080 jenkins/jenkins
+3) Then, go to your browser enter the ip-address:8080 to access jenkins externally
+This is how you map the port from docker container to host
+
+Now: if we exit out of the Jenkins container, that will stop the jenkins service
+and if we start another Jenkins docker then we will have to make configurational change again
+so inorder to persist that data accross docker container, to persist the
+configurational change then you have to make the volume.
+
+To PERSIST change:
+1) mkdir my-jenkins-data
+This is how to create a jenkins docker volume on host machine
+2) create volume using: docker run -p 8080:8080 -v /root/my-jenkins-data:/var/jenkins_home -u root jenkins/jenkins
+#here -u is specifying user in this case root user
+3) Now, even if you exit out of jenkins docker container then you can still map the jenkins directory that you initially created without data loss
+4) Now we can re-run: docker run -p 8080:8080 -v /root/my-jenkins-data:/var/jenkins_home -u root jenkins/jenkins
+5) All the custom data, that is being generated by docker contain is store at docker host, and all te data will be picked up by
+docker container when it runs the jenkin contain again
+https://github.com/jenkinsci/docker/blob/master/README.md
+
+##Flags to use: --name [name] -d[run-in-background] -p host-port:container-port
+Jenkins home directory by default is at /var/lib/Jenkins
+
+docker run -d -p 8081:80  docker/getting-started
+#Here we are running docker container with -d to run in the backgroud and
+-p to bind the port 8081 on host to port 80 on docker container following the name of the docker image
+
+docker restart [container-ID]
+#to restart docker container
+
+docker port [contain-ID]
+to get the port of the container
+
+docker logs [container-ID]
+#to get the logs of the container
+
+docker inspect [container-ID]
+#to get all the detail information about the container
+
+docker top [container-ID]
+#to get the information about top processes running inside your container
+
+docker exec -it d601bc sh 
+#exec -it allows us to execute command in running container
+#in this example we entered the shell of the running container; shell access of running container
+
+exit to exit out of the shell
+
+Working with Docker images:
+What is a Dockerfile? it is a text document that contains all commands a user can call on the command line to assemble an image
+Docker file is a text fle to create docker image, we can create docker file to customize our environment with out set of instructions
+Every docker file must specify:
+FROM #specify base image
+RUN #ececute specified command
+Workdir #change current directory
+copy # simple copy files/ directories from host machine to container imahe
+env # Add envirnment variables
+Expose #open designated port
+CMD #specify the command at the time of cotainer execution
+ENTRYPOINT #Specify the command to execute the container
+LABEL #Label mainterner=maintainer@example.com specified the author of the file
+
+Basic Docker Commands:
+Pulling an image from Docker Hub -> docker image pull [IMAGE_NAME]
+Building an image from a Dockerfile -> docker build -f [DockerFile_Path]
+Building an image from a container -> docker commit [Conatiner_name] [Image_Name]
+Tagging a Docker Image -> docker tag SOURCE_IMAGE[:TAG] Target_Image[:TAG]
+Pushing an image to the Docker Hub -> docker login && docker image push [Image_Name]
+List container images -> docker image ls || docker images
+Deleting an image from your system -> docker image remove [IMAGE_NAME] || docker rmi [Image-Name]
+
+what is a docker file, and how to create a docker file? Let's create a docker image for Python application 
+I create a app.py with the following content:
+from flask import Flask
+import os
+import socket
+
+app = Flask(__name__)
+@app.route("/")
+
+def hello():
+    html = "<h3>Hello {name}!</h3> <b>Hostname:</b> {hostname}<br/>"
+    return html.format(name=os.getenv("NAME", "world"), hostname=socket.gethostname())
+
+if __name__ == "__name__":
+    app.run(host='0.0.0.0', port=4000)
+
+and then create docker file to use that app.py pythong file: with name Dockerfile
+#Use an officicial Python runtime as a parent image
+FROM python:2.7-slim
+WORKDIR /app
+ADD . /app
+RUN pip install --trusted-host pypi.python.org Flask
+ENV NAME WORLD
+CMD ["python", "app.py"]
+
+3) docker build -t haris-demo . 
+#This will build a docker image using the docker file, -t = image name and . represents in the current directory
+4) To see if images was create successfully use: docker images
+This is how to use dockerfile to create a docker image for our application
+
+Let's containerize our docker image and connect to it ex: haris-demo
+How to containerize your docker image? use docker run command
+docker run --name my-webapp -p 8080:4000 haris-demo
+--name to give our container our customized name
+- p to map the application port 4000 to port 8080 of host machine
+
+Now we can push to docker repo hub by first creating a repo on docker hub and then:
+and then creating a tag using: docker tag haris-demo harisx91/test-repo:vi
+confirm tage is created by: docker images
+
+In order to push this to remote docker repo, we will first have to login using:
+docker login -u <user_name>
+and then give the password when prompted
+
+Once successfully logged in:
+docker push harisx91/test-repo:v1
+#pushing the docker image from cli to docker remote repo by giving the path and also giving a tag with v1
+
+Why would you need to create docker image? You can not find a service you want to use on docker hub or 
+you and your team decided to dockerize the application to ease of shipping and deployment
+
+How to create my own image?
+First think about all the manual steps you will need to take to build an application
+1) OS 2) Update yum repo 3) Install dependencies using yum 4) Install python dependencies using pip
+5) copy source code to /opt folder 6) Run the web server using "flask" command
+
+Let's first create Dockerfile and then list the instruction for dependencies
+and then use docker build Dockerfile -t harisx91/my-custom-app #This will create image locally
+and to make this image publically then use: docker push harisx91/my-custom-app
+
+Dockerfile[Instruction , Arguement] is text written in a specific format that Docker can understand. It will list instructions and arguement 
+All docker files start with: 
+
+FROM Ubuntu #Start from a base OS or another images
+
+RUN apt-get update #Install all dependencies
+RUN apt-get install python #Install all dependencies
+
+RUN pip install flask #Install dependencies
+RUN pip install flask-mysql #Install dependencies
+
+COPY . /opt/source-code #copy source code 
+
+ENTRYPOINT FLASK_APP=/opt/source-code/app.py flask run #Specify Entrypoint 
+
+Now lets build on this concept:
+First: docker run -it ubuntu bash #This is going to run docker with base Ubuntu image and open interavtve shell
+Second: Once inside the shell then: you can look at the logs using history
+apt-get update
+apt-get install -y python-is-python3
+apt-get install python3-pip -y
+apt install python3-flask -y
+create/copy application to /opt/app.py
+FLASK_APP=/opt/app.py flask run --host=0.0.0.0
+
+and create app.py file in /opt dir using: cat > opt/app.py
+import os
+from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def main():
+    return "Welcome!"
+
+@app.route('/how are you')
+def hello():
+    return 'I am good, how about you?'
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8080)
+
+and on command line: FLASK_APP=app.py flask run --host=0.0.0.0 #To run flask application
+
+Let's make docker image following previous steps: 
+Once we have created a directory with app.py and Dockerfile in it then we can build the container
+
+We can finally run: docker build . #create docker image 
+we can now give the tag name to image using: docker build . -t my-simple-webapp
+
+To PUSH CODE:
+1) First create a docker image tag like: docker build . -t harisx91/my-simple-webapp
+2) Then, login to your docker repo account by passing: docker login -u <username> and password
+3) finally push the image using: docker push harisx91/my-simple-webapp
+4) and finally check https://hub.docker.com/repositories/ to see image is there
+

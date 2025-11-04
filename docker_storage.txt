@@ -1,0 +1,68 @@
+Docker stoage drivers and filesystem
+
+When we install docker, then docker create the folder structure like:
+/var/lib/docker
+    - aufs
+    - containers #files related to container
+    - image #files related to images are stored
+    - volume #files created by Docker is stored here as volumes
+
+How does docker store images and containers?
+When docker builds images, it builds in layered architecture. 
+
+How is docker efficient? 
+It will utilize space by using the previous layered image stored in cache.
+
+There are different layers:
+In image layer:
+    We can have layer 1, layer 2, layer 3, ... and the image layers are read only,
+    so when we do need to configure the image then we need to make another builds
+
+In container layers:
+    We can have read write in the container layer. 
+
+COPY-ON-WRITE: It will copy from the image layer to write in the container layer to configure file. 
+
+Volumes:
+We want to persist the data in container, to do this we need to:
+docker volume create data_volume 
+#This will create a data_volume directory under /var/lib/docker/volumes
+
+When I run:
+docker run -v data_volume:/var/lib/mysql mysql
+I can mount this volume, inside the docker read-write container layer 
+/var/lib/mysql #this is default location where mysql data is stored inside the container 
+This way, even if container is destroyed data is still available in the docker host
+
+What is we dont create the volume using the docker volume create command then
+docker will automatically will create this volume when we run the command:
+docker run -v data_volume2:/var/lib/mysql mysql
+#Here new data_volume2 is created in the volumes dir of /var/lib/docker/volumes directory
+
+What we have already have data on an external folder?
+In this case, we will give the path as:
+docker run -v /data/mysql:/var/lib/mysql mysql
+#This will store the data at /data/mysql directory
+
+There are twotype of mounts: volume mount and bind mount
+volume mount: mounts volume from volume dir
+bind mount: any mount point on host 
+
+Updated way to use mount: 
+docker run \
+--mount type=bin,source=/data/mysql,target=var/lib/mysql mysql 
+
+Storage drivers: Different storage drivers for underlying OS being used 
+Overlay2 (RHEL)
+Overlay
+aufs
+ZFS
+BTRFS
+Device Mapper
+
+
+
+
+
+
+

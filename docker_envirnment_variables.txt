@@ -1,0 +1,11 @@
+#
+docker run -e APPL_COLOR=blue simple-webapp-APPL_COLOR
+
+How to find the env variable on a container that is already running?
+docker inspect <container_name>
+
+docker run --name mysql-db -d -e MYSQL_ROOT_PASSWORD=db_pass123 mysql
+9486ed8c858372e218bfdc579c19f616f3c0f04c653c5d133f9c908b278d922a
+
+docker run --name <give-name> -e <envirnment-variable> -p <host:container> <name-of-docker-image>
+

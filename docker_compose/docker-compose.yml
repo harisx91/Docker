@@ -1,0 +1,23 @@
+version: "3"
+services:
+  redis:
+   image: redis
+
+  db:
+   image: postgres:9.4
+   environment:
+     POSTGRES_USER: postgres
+     POSTGRES_PASSWORD: postgres
+
+  vote:
+   image: docker/example-voting-app-vote
+   ports: 
+    - 5000:80
+
+  worker:
+   image: docker/example-voting-app-worker
+
+  result:
+   image: docker/example-voting-app-result
+   ports:
+    - 5001:80

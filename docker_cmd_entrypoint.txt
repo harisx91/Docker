@@ -1,0 +1,45 @@
+Containers are not mean to run operating system, containers are meant to
+fun a specific task or processes suck as host an instance of webserver or a databases server
+once a task is complete then the container exits
+
+docker run ubuntu [COMMAND]
+docker run ubuntu sleep 5
+
+How to make that change permanent?
+You will have to make a image from base ubuntu image and give the specific command like:
+FROM ubuntu
+
+CMD sleep 5
+
+#CMD commanbd param1 CMD sleep 5
+#CMD ["command","param1"] --> CMD ["sleep","5"] #Correct way to give command and then use parameter
+This is wrong way to specify command and param --> CMD ["sleep 5"]
+
+now we can: docker build -t ubuntu-sleeper . #To build image
+docker run ubuntu-sleeper
+#Now container will run for 5 secs
+
+docker run ubuntu-sleeper sleep 10
+#This is will run the container for 10 secs but let's give a much cleaner look
+
+This is use of Entrypoint instruction like:
+FROM Ubuntu 
+
+ENTRYPOINT["sleep"]
+
+docker run ubuntu-sleeper 10
+#This will also run the image for 10 secs 
+
+ In case of CMD command line parameters get passed will replace entirely,
+ where as in ENTRYPOINT will get appended on the command line
+ FROM Ubuntu
+
+ ENTRYPOINT ["sleep"]
+
+ CMD["5"]
+
+ docker run ubuntu-sleep 10
+ #command at startup: sleep 10
+
+ docker run --entrypoint sleep2.0 ubuntu-sleeper 10
+

@@ -1,0 +1,53 @@
+#docker run <docker_image>
+#docker run mongodb
+#docker run redis:alpine
+#docker run ansible
+
+docker-compose.yml
+services:
+     web:
+        image: "<simple-webapp>"
+     database:
+        image: "mongo-db"
+      message:
+        image: "redis:alpine"
+      orchestration:
+        image: "ansible"
+
+docker-compose up 
+With docker compose we can create a configuration file in YAML format called Docker Compose 
+
+#it is easy to manage and configure
+
+This is simple Docker voting application:
+docker run -d --name=redis redis
+docker run -d --name=db postgres
+docker run -d --name=vote -p 5000:80 docker/example-voting-app-vote
+docker run -d --name=result -p 5001:80 docker/example-voting-app-result
+docker run -d --name=worker docker/example-voting-app-worker
+
+But we having told the redis application to run this specific instance,
+this is where we will utilize --links. Link is a command line option which can be use to link 
+two containers together.
+docker run -d --name=vote -p 5000:80 --link redis:redis docker/example-voting-app-vote
+docker run -d --name=result -p 5001:80 --link db:db docker/example-voting-app-result
+But link could be a deprecated feature in future
+
+This is where we will utilize docker-compose.yml 
+This is simple Docker voting application:
+docker run -d --name=redis redis
+docker run -d --name=db postgres
+docker run -d --name=vote -p 5000:80 docker/example-voting-app-vote
+docker run -d --name=result -p 5001:80 docker/example-voting-app-result
+docker run -d --name=worker docker/example-voting-app-worker
+
+*In docker version 1 the docker will utilize the default bridge network, and then it will link the links but in docker version 2 and up, it will automatically create a bridge network for the application and then it will form links on it own without us specifying links.*
+
+Link to github repo:
+https://github.com/dockersamples/example-voting-app
+
+Installing Docker compose:
+curl -SL https://github.com/docker/compose/releases/download/v2.40.3/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+
+and then give perms using:
+chmod +x /usr/local/bin/docker-compose

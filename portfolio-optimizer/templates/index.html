@@ -1,0 +1,63 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Portfolio Optimizer</title>
+  <style>
+    body { font-family: Arial; margin: 40px; }
+    input, button { padding: 8px; margin: 5px; }
+    #result { margin-top: 20px; }
+    img { max-width: 100%; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Portfolio Optimization (MPT)</h1>
+  <p>Enter stock tickers (e.g., AAPL, MSFT, GOOGL):</p>
+  <input type="text" id="tickers" placeholder="AAPL MSFT GOOGL" style="width: 300px;">
+  <button onclick="optimize()">Optimize</button>
+
+  <div id="result"></div>
+
+  <script>
+    async function optimize() {
+      const input = document.getElementById('tickers').value.trim();
+      const tickers = input.split(/\s+/).filter(t => t);
+      if (tickers.length < 2) {
+        alert("Enter at least 2 tickers");
+        return;
+      }
+
+      const res = await fetch('/optimize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tickers })
+      });
+
+      const data = await res.json();
+      const resultDiv = document.getElementById('result');
+
+      if (data.error) {
+        resultDiv.innerHTML = `<p style="color:red;">Error: ${data.error}</p>`;
+        return;
+      }
+
+      let weightsHtml = '<ul>';
+      for (const [ticker, weight] of Object.entries(data.optimal_weights)) {
+        weightsHtml += `<li><strong>${ticker}</strong>: ${(weight*100).toFixed(2)}%</li>`;
+      }
+      weightsHtml += '</ul>';
+
+      resultDiv.innerHTML = `
+        <h3>Optimal Portfolio</h3>
+        <p><strong>Expected Annual Return:</strong> ${(data.expected_return*100).toFixed(2)}%</p>
+        <p><strong>Volatility (Risk):</strong> ${(data.volatility*100).toFixed(2)}%</p>
+        <p><strong>Sharpe Ratio:</strong> ${data.sharpe_ratio.toFixed(3)}</p>
+        <h4>Weights:</h4>
+        ${weightsHtml}
+        <h4>Efficient Frontier:</h4>
+        <img src="${data.plot}" />
+      `;
+    }
+  </script>
+</body>
+</html>

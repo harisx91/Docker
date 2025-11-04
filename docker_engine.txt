@@ -1,0 +1,32 @@
+Docker Enginer has:
+Docker CLI: it uses REST API to connect to Docker Deamon to perform actions
+REST API: API interface that rprogram uses interact with docker daemon
+DOCKER Deamon: background process Manages docker objexts such as images, volumes and networks 
+
+
+We can use docker cli on a different machine to connect to docker on another machine like:
+docker -H=remote-docker-engine:2375
+docker -H=10.123.2.1:2375 run nginx
+
+How does docker containerize these applications?
+Docker uses namespace to isolate workspace, so a namespace are created like
+mount, process ID, Network, interprocess and Unix Timesharing to provide isolation
+
+Processes running inside a container are processes running on a underlining host.
+So, two processes can not have same process ID, this is where namespace comes in. 
+
+Each process can have multiple process Ids, when when a process id runs on docker container
+then it will take the next process ID in the underlying Linux host PID.
+
+In summary: Even though two processes are running on the same host, they are
+seperated by namespace one in the Linux host and they other in container
+
+How much of resources are dedicated? And how does docker manages them?
+By default there is no restriction how much resource a container can use, so a container
+can take all the underlying host. 
+
+But, there is a way to restrict amount of CPU or memory a container can use.
+Docker uses cgroup or control group, this can be used by providing:
+docker run --cpu=.50 ubuntu # 50% of CPu ultilization
+docker run --memory=100m ubuntu #limit the memory a container can use
+
