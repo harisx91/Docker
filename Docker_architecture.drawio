@@ -1,0 +1,46 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" version="28.2.8">
+  <diagram name="Page-1" id="bsx6XScIPU32THEsUTI0">
+    <mxGraphModel dx="1494" dy="1183" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="sYzvyuRiIsHqYXtgb9P4-10" value="Hardware" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-201" y="285" width="912" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="sYzvyuRiIsHqYXtgb9P4-11" value="OS" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-160" y="221" width="818" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sYzvyuRiIsHqYXtgb9P4-12" value="Docker" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-102" y="154" width="745" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sYzvyuRiIsHqYXtgb9P4-13" value="Database" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-95" y="-77" width="205" height="219" as="geometry" />
+        </mxCell>
+        <mxCell id="sYzvyuRiIsHqYXtgb9P4-14" value="Web server" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="117" y="-77" width="205" height="219" as="geometry" />
+        </mxCell>
+        <mxCell id="sYzvyuRiIsHqYXtgb9P4-15" value="Ansible&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="329" y="-77" width="205" height="219" as="geometry" />
+        </mxCell>
+        <mxCell id="sYzvyuRiIsHqYXtgb9P4-18" value="Library" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-68" y="69" width="73" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="sYzvyuRiIsHqYXtgb9P4-19" value="Library" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="124" y="66" width="73" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="sYzvyuRiIsHqYXtgb9P4-20" value="Library" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="339" y="69" width="73" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="sYzvyuRiIsHqYXtgb9P4-21" value="Dependencies&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="17" y="70" width="84" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sYzvyuRiIsHqYXtgb9P4-22" value="Dependencies&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="211" y="66" width="84" height="67" as="geometry" />
+        </mxCell>
+        <mxCell id="sYzvyuRiIsHqYXtgb9P4-23" value="Dependencies&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="424" y="66" width="84" height="67" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
