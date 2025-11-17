@@ -6,7 +6,7 @@ color = "red"
 
 @app.route('/')
 def hello_world():
-    return '<h1>New Change!</h1>'
+    return '<h1>Hello World!</h1>'
 
 def backgroud_color():
     print(color)
