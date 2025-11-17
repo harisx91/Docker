@@ -1,0 +1,44 @@
+  #We are going to create a key-value pair
+  #Create a dictionary of container name
+version: "2"
+
+services: 
+  redis:
+    image: redis
+    networks:
+      - back-end
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: example
+    networks: 
+      - back-end
+
+  vote:
+    image: docker/example-voting-app-vote
+    ports:
+      - 5000:80
+    depends_on:
+      - redis
+    networks: 
+      - front-end
+      - back-end 
+
+  result:
+    image: docker/example-voting-app-result
+    ports:
+      - 5001:80
+    networks:
+      - front-end
+      - back-end
+
+  worker:
+    image: docker/example-voting-app-worker
+    networks:
+     - back-end
+
+networks:
+  front-end:
+  back-end:
+
